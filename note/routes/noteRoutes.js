@@ -1,21 +1,9 @@
 const express = require('express')
 const router = express.Router()
+const { getNote, postNote, editNote, deleteNote } = require("../controllers/notecontroller")
 
 
-router.get("/", (req, res) => {
-    res.send("get notes")
-})
-
-router.post("/", (req, res) => {
-    res.send("post note")
-})
-
-router.put("/:id", (req, res) => {
-    res.send("update notes")
-})
-
-router.delete("/", (req, res) => {
-    res.send("delete notes")
-})
+router.route("/").get(getNote).post(postNote)
+router.route("/:id").put(editNote).delete(deleteNote)
 
 module.exports = router
