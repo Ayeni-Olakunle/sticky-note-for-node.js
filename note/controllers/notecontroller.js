@@ -22,11 +22,27 @@ const postNote = asyncHandler(async (req, res) => {
 })
 
 const editNote = asyncHandler(async (req, res) => {
-    res.send("edit notes " + req.params.id)
+    const note = await Note.findById(req.params.id);
+    if (!note) {
+        res.status(400)
+        throw new Error(`Note not found`);
+    }
+
+    const updateNote = await Note.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    });
+
+    res.status(200).json(updateNote);
 })
 
 const deleteNote = asyncHandler(async (req, res) => {
-    res.send("delete notes " + req.params.id)
+    const note = await Note.findById(req.params.id);
+    if (!note) {
+        res.status(400);
+        throw new Error("Note not found");
+    }
+    await note.remove();
+    res.status(200).json({ deleted: `Item with id of ${req.params.id} is deleted` });
 })
 
 module.exports = {
