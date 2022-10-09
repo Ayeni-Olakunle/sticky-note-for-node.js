@@ -5,11 +5,15 @@ const port = process.env.PORT || 8000
 const { errorHandler } = require("./middleware/errorMiddleWare")
 const connectDB = require("./config/db")
 const app = express()
+const cors = require('cors');
 
 
 connectDB()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(cors({
+    origin: '*'
+}));
 
 app.use("/api/notes", require("./routes/noteRoutes"))
 
